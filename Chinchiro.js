@@ -1,5 +1,3 @@
-import { ConsoleWriter } from "istanbul-lib-report";
-import { all } from "micromatch";
 
 console.log("Welcome to Chinchiro!")
 
@@ -7,7 +5,12 @@ console.log("Welcome to Chinchiro!")
 //Can re-use them for the computer player after human player roll submitted
 //Below 3 dice are rolled, then combined into an array and sorted smallest to largest
 
-diceRoll = function (allDice) {
+export const dice1 = 0
+export const dice2 = 0
+export const dice3 = 0
+export const allDice = [dice1, dice2, dice3]
+
+export function diceRoll () {
 
     const dice1 = {
         sides: 6,
@@ -32,41 +35,72 @@ diceRoll = function (allDice) {
             return randomNumber;
         }
     }
-    const allDice = [dice1, dice2, dice3]
+    
+}
+export function sortDice () {
+const allDice = [dice1, dice2, dice3]
     allDice.sort(function (a, b) { return a - b })
 }
+
 
 //Below is the "gameplay loop" to determine scoring
 //If Statement as Switch seemed unecessary for checking Arrays
 //Can use breaks for the "Instant win/lose" components
 
-getResult = function (score) {
-    if (allDice[0] == 1 && allDice[1] == 2 && allDice[2] == 3) {
-        console.log("Sorry, you have rolled an instant LOSS")
-    }
-    else if (allDice[0] == 4 && allDice[1] == 5 && allDice[2] == 6) {
-        console.log("Congratulations, you have rolled an instant WIN")
-    }
-    else if (allDice[0] == allDice[1] == allDice[2]) {
-        console.log("Congratulations, you have rolled a triple, therefore resulting in an instant WIN")
-    }
-    else if (allDice[0] == allDice[1] != allDice[2]) {
-        score = allDice[2]
-        console.log("Your score for this roll is: " + score)
-    }
-    else if (allDice[0] != allDice[1] == allDice[2]) {
-        score = allDice[0]
-        console.log("Your score for this roll is: " + score)
-    }
-    else {
-        console.log("Your roll is indeterminate")
-    }
-
-
-
-
-
-    
+export function Game(allDice, player1, player2) {
+    this.allDice = allDice
+    this.player1 = player1
+    this.player2 = player2
 }
 
+Game.prototype.getResult = function (done) {
+    if (allDice[0] == 1 && allDice[1] == 2 && allDice[2] == 3) {
+        this.reportLoss
+        
+    }
+    else if (allDice[0] == 4 && allDice[1] == 5 && allDice[2] == 6) {
+        this.reportWin
+        
+    }
+    else if (allDice[0] == allDice[1] == allDice[2]) {
+        this.reportWin
+        
+    }
+    else if (allDice[0] == allDice[1] != allDice[2]) {
+        this.score = allDice[2]
+        this.reportResult
+        
+    }
+    else if (allDice[0] != allDice[1] == allDice[2]) {
+        this.score = allDice[0]
+        this.reportResult
+        
+    }
+    else {
+        this.reportReroll
+    }
+        
+}
+
+Game.prototype.addOutput = function (output) {
+    const elem = document.createElement('p')
+    elem.appendChild(document.createTextNode(output))
+    this.output.appendChild(elem)
+}
+
+Game.prototype.reportResult = function (score, allDice) {
+    this.addOutput(`You have rolled, ${allDice} and scored ${score} point(s)`)
+}
+
+Game.prototype.reportLoss = function (allDice) {
+    this.addOutput("Sorry, you have rolled an instant LOSS (1,2,3)")
+}
+
+Game.prototype.reportWin = function (allDice) {
+    this.addOutput("Congratulations, you have rolled an instant WIN")
+}
+
+Game.prototype.reportReroll = function (allDice) {
+    this.addOutput("Your roll is indeterminate and requires re-rolling")
+}
 //This is where the evaluation of the dice roll will go and output the players "Value"

@@ -1,0 +1,23 @@
+{
+  "name": "chinchiro",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "dice game",
+  "main": "Chinchiro.js",
+  "devDependencies": {
+    "jest": "^27.5.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/callumbarnes555/chinchiroProject.git"
+  },
+  "author": "Callum Barnes",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/callumbarnes555/chinchiroProject/issues"
+  },
+  "homepage": "https://github.com/callumbarnes555/chinchiroProject#readme"
+}
