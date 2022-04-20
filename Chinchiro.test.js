@@ -6,7 +6,7 @@ describe("Game", () => {
     const winningRoll = { allDice: () => [4, 5, 6] }
 
     test("Game should result in a loss with a roll of 1, 2, 3", () => {
-        const game = new Game(losingRoll)
+        const game = new Game.prototype.getResult(losingRoll)
         game.reportResult = jest.fn()
 
         game.getResult()

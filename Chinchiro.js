@@ -10,7 +10,7 @@ export const dice2 = 0
 export const dice3 = 0
 export const allDice = [dice1, dice2, dice3]
 
-export function diceRoll () {
+export function diceRoll() {
 
     const dice1 = {
         sides: 6,
@@ -35,17 +35,12 @@ export function diceRoll () {
             return randomNumber;
         }
     }
-    
+
 }
-export function sortDice () {
-const allDice = [dice1, dice2, dice3]
+export function sortDice() {
+    const allDice = [dice1, dice2, dice3]
     allDice.sort(function (a, b) { return a - b })
 }
-
-
-//Below is the "gameplay loop" to determine scoring
-//If Statement as Switch seemed unecessary for checking Arrays
-//Can use breaks for the "Instant win/lose" components
 
 export function Game(allDice, player1, player2) {
     this.allDice = allDice
@@ -53,34 +48,50 @@ export function Game(allDice, player1, player2) {
     this.player2 = player2
 }
 
-Game.prototype.getResult = function (done) {
-    if (allDice[0] == 1 && allDice[1] == 2 && allDice[2] == 3) {
-        this.reportLoss
-        
+//Below is the "gameplay loop" to determine scoring
+//If Statement as Switch seemed unecessary for checking Arrays
+//Can use breaks for the "Instant win/lose" components
+
+Game.prototype.getResult = function (score) {
+    const reRollCounter = 0
+    while (reRollCounter != 2) {
+        diceRoll(dice1, dice2, dice3)
+        sortDice(allDice)
+        if (allDice[0] == 1 && allDice[1] == 2 && allDice[2] == 3) {
+            this.reportLoss
+            break
+        }
+        else if (allDice[0] == 4 && allDice[1] == 5 && allDice[2] == 6) {
+            this.reportWin
+            break
+        }
+        else if (allDice[0] == allDice[1] == allDice[2]) {
+            this.reportWin
+            break
+        }
+        else if (allDice[0] == allDice[1] != allDice[2]) {
+            this.score = allDice[2]
+            this.reportResult
+            break
+        }
+        else if (allDice[0] != allDice[1] == allDice[2]) {
+            this.score = allDice[0]
+            this.reportResult
+            break
+        }
+        else {
+            this.reportReroll
+            reRollCounter++
+        }
+        this.reportReollMax
     }
-    else if (allDice[0] == 4 && allDice[1] == 5 && allDice[2] == 6) {
-        this.reportWin
-        
-    }
-    else if (allDice[0] == allDice[1] == allDice[2]) {
-        this.reportWin
-        
-    }
-    else if (allDice[0] == allDice[1] != allDice[2]) {
-        this.score = allDice[2]
-        this.reportResult
-        
-    }
-    else if (allDice[0] != allDice[1] == allDice[2]) {
-        this.score = allDice[0]
-        this.reportResult
-        
-    }
-    else {
-        this.reportReroll
-    }
-        
+
 }
+//HOPEFULLY this line below will run the game??
+
+const playGame = new Game.prototype.getResult()
+
+console.log(playGame)
 
 Game.prototype.addOutput = function (output) {
     const elem = document.createElement('p')
@@ -103,4 +114,10 @@ Game.prototype.reportWin = function (allDice) {
 Game.prototype.reportReroll = function (allDice) {
     this.addOutput("Your roll is indeterminate and requires re-rolling")
 }
+Game.prototype.reportReollMax = function (allDice) {
+    this.addOutput("You have reached the maximum number of re-rolls, due to this, you have lost")
+}
 //This is where the evaluation of the dice roll will go and output the players "Value"
+
+
+
